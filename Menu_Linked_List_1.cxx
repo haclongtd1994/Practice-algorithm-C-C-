@@ -52,9 +52,8 @@ void addHead(List &l, int x){
 	Node *p = createNode(x);
 	if(isEmpty(l)) l.head = l.tail =p;
 	else{
-		Node *q = l.head->next;
+		p->next = l.head;
 		l.head = p;
-		p->next = q;
 	}
 }
 void addTail(List &l, int x){
@@ -96,10 +95,28 @@ Node *search(List l, int x){
 void addMid(List &l, int x, int k){
 	Node *p = search(l,k);
 	if(p!=NULL){
-		
+		Node *r = createNode(x);
+		r->next = p->next;
+		p->next = r;
 	}
 	else{
 		cout<<"Data not found ...\n";
+	}
+}
+void addAtk(List &l, int x, int k){
+	if(isEmpty(l)||k<=1)	addHead(l,x);
+	else if(k>=10)			addTail(l,x);
+	else{
+		int dem=0;
+		Node *p = l.head;
+		while(p!=NULL){
+			if(dem==k) break;
+			dem++;
+			p = p->next;
+		}
+		Node *r = createNode(x);
+		r->next = p->next;
+		p->next = r;
 	}
 }
 void menu()
@@ -108,7 +125,7 @@ void menu()
 	Init(l);
 	nhap(l);
 	xuat(l);
-	int x,lc;
+	int k,x,lc;
 	do{
 		cout<<"\nSelect che do cua menu linked list: \n1__Them du lieu vao node dau."
 			<<"\n2__Them vao sau node cuoi.\n3__Them du lieu x sau node co du lieu k."
@@ -119,9 +136,9 @@ void menu()
 			case 0: cout<<"Exiting ....";break;
 			case 1: cout<<"Nhap x: ";cin>>x;addHead(l,x);n++;break;
 			case 2: cout<<"Nhap x: ";cin>>x;addTail(l,x);n++;break;
-			//case 1: cout<<"Nhap x, k: ";cin>>x>>k;addHead(l,x);n++;break;
-			//case 1: cout<<"Nhap x: ";cin>>x;addHead(l,x);n++;break;
-			//case 1: cout<<"Nhap x: ";cin>>x;addHead(l,x);n++;break;
+			case 3: cout<<"Nhap x, k: ";cin>>x>>k;addMid(l,x,k);n++;break;
+			case 4: cout<<"Nhap x, k: ";cin>>x>>k;addAtk(l,x,k);n++;break;
+			case 5: xuat(l);break;
 		}
 	}while(lc!=0);
 }
